@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <script
+      src="https://kit.fontawesome.com/410a7c741c.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&family=Quantico&family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Warranties</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/warranties.css" />
+    <script type="text/javascript" src="./js/scriptWarranties.js" defer></script>
+  </head>
+  <body>
+    <div class="base-container">
+      {% include '/views/navigation.html.twig' %}
+      <main>
+          <a href="add_warranty" class="add_button">
+              <img src="./img/add_button.svg" />
+          </a>
+        <header>Active warranties</header>
+        <section class="warranties">
+            {% for warranty in warranties %}
+                <div class="warranty_box" id="{{warranty.id}}">
+                    <img src="./img/{{warranty.category}}.svg" />
+                    <div class="imgname">{{warranty.category}}</div>
+                    <div class="hidden_details" style="display: none;">
+                        <div id="productName">{{warranty.productName}}</div>
+                        <div id="purchaseDate">{{ warranty.purchaseDate|date('Y-m-d') }}</div>
+                        <div id="warrantyPeriod">{{warranty.warrantyPeriod}}</div>
+                        <div id="receipt">{{warranty.receipt}}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </section>
+      </main>
+    </div>
+    {% include '/views/notification-panel.html.twig' %}
+  </body>
+  {% include '/views/warranty-template.html.twig' %}
+</html>

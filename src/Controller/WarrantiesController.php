@@ -2,18 +2,30 @@
 
 namespace App\Controller;
 
+use App\Entity\Warranty;
+use App\Repository\WarrantyRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WarrantiesController extends AbstractController
 {
-    #[Route('/warranties', name: 'app_warranties')]
-    public function index(): JsonResponse
+    private $warrantyRepository;
+    public function __construct(WarrantyRepository $warrantyRepository)
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/WarrantiesController.php',
+        $this->warrantyRepository = $warrantyRepository;
+    }
+
+
+    #[Route('/warranties', name: 'warranties')]
+    public function index(): Response
+    {
+        $warranties = $this->warrantyRepository->findAll();
+
+        return $this->render('/views/warranties.html.twig', [
+            'warranties' => $warranties
         ]);
     }
+
 }
