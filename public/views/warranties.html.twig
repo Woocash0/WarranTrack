@@ -27,7 +27,7 @@
           <a href="add_warranty" class="add_button">
               <img src="./img/add_button.svg" />
           </a>
-        <header>Active warranties</header>
+        <header>Active warranties ({{warranties|length }})</header>
         <section class="warranties">
             {% for warranty in warranties %}
                 <div class="warranty_box" id="{{warranty.id}}">

@@ -37,13 +37,13 @@ class WarrantyFixtures extends Fixture
         
 
         $date2 = new DateTimeImmutable();
-        $date3 = $date2->setDate(2018, 4, 8);
+        $date3 = $date2->setDate(2019, 1, 17);
 
         $warranty2->setPurchaseDate($date3);
         $warranty2->setWarrantyPeriod(5);
         $warranty2->setReceipt("receipt.jpg");
 
-        $date4 = $date2->setDate(2023, 4, 8);
+        $date4 = $date2->setDate(2024, 1, 17);
         $warranty2->setWarrantyEndDate($date4);
         $warranty2->setActive(0);
         $warranty2->setIdUser(3);

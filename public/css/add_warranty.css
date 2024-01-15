@@ -1,0 +1,52 @@
+input{
+    font-size: 1em;
+    text-align: center;
+    color: #261132;
+}
+form{
+    height: 80vh;
+}
+
+#info {
+    height: 90%;
+}
+.messages{
+    margin: 0;
+    justify-content: center;
+}
+.detail_container{
+height: 6em;
+}
+#info .detail{
+    color: #261132;
+}
+option{
+    text-align: center;
+    font-weight: bolder;
+}
+
+#file-box{
+    background: transparent;
+    color: white !important;
+}
+#warranty_form_receipt{
+    background: transparent;
+    color: white !important;
+}
+#warranty_form_purchase_date{
+    border: none;
+}
+#warranty_form_purchase_date select{
+    width: 30%;
+    height: 100%;
+    margin: 0 2em 0 2em;
+}
+@media only screen and (max-device-width: 992px) {
+    #info .detail_container{
+        height: 2em;
+        max-width: 14em;
+    }
+    #info {
+        height: 12em;
+    }
+}
