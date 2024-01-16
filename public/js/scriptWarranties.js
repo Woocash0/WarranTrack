@@ -31,6 +31,8 @@ let warrantyBox;
 function handleClick() {
     showDetails.call(this, background, box);
     deleteById.call(this);
+    editById.call(this);
+
 }
 
 function showDetails(element1, element2) {
@@ -128,6 +130,19 @@ function deleteById() {
                 location.reload();
             }
         });
+    });
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////
+// Editing warranties
+function editById() {
+    const warrantyBox = this;
+    const editElementId = warrantyBox.id;
+
+    const editIcon = document.querySelector(".edit");
+    editIcon.addEventListener("click", function () {
+        console.log("edit.html.twig"+editElementId);
+        window.location.href = 'edit_warranty/'+editElementId;
     });
 }
 

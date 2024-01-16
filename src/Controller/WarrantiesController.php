@@ -51,7 +51,7 @@ class WarrantiesController extends AbstractController
             $receipt = $form->get('receipt')->getData();
             if($receipt){
                 $newFileName = uniqid() . '.' . $receipt->guessExtension();
-                
+
                 try{
                     $receipt->move(
                         $this->getParameter('kernel.project_dir') . '/public/uploads',
@@ -62,6 +62,8 @@ class WarrantiesController extends AbstractController
                 }
 
                 $newWarranty->setReceipt($newFileName);
+            }else{
+                $newWarranty->setReceipt('no-image.svg');
             }
             $this->em->persist($newWarranty);
             $this->em->flush();
@@ -72,6 +74,56 @@ class WarrantiesController extends AbstractController
         return $this->render('/views/add_warranty.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/edit_warranty/{id}', name: 'edit_warranty')]
+    public function editWarranty($id, Request $request): Response{
+        
+        $warranty = $this->warrantyRepository->find($id);
+        $form = $this->createForm(WarrantyFormType::class, $warranty);
+
+        $form->handleRequest($request);
+        $receipt = $form->get('receipt')->getData();
+        if($form->isSubmitted() && $form->isValid()){
+            if($receipt){
+                if($warranty->getReceipt() !== null){
+                        $this->getParameter('kernel.project_dir') . $warranty->getReceipt();
+
+                        $newFileName = uniqid() . '.' . $receipt->guessExtension();
+
+                        try{
+                            $receipt->move(
+                                $this->getParameter('kernel.project_dir') . '/public/uploads',
+                                $newFileName
+                            );
+                        } catch(FileException $e){
+                            return new Response($e->getMessage());
+                        }
+
+                        $warranty->setReceipt($newFileName);
+                        $this->em->flush();
+                        return $this->redirectToRoute('warranties');
+                } else{
+                    dd('jest nullem');
+                }
+
+            } else{
+                $warranty->setCategory($form->get('category')->getData());
+                $warranty->setProductName($form->get('product_name')->getData());
+                $warranty->setPurchaseDate($form->get('purchase_date')->getData());
+                $warranty->setWarrantyPeriod($form->get('warranty_period')->getData());
+
+                $this->em->flush();
+                return $this->redirectToRoute('warranties');
+
+            }
+        }
+
+        return $this->render('/views/edit_warranty.html.twig', [
+            'warranty' => $warranty,
+            'form' => $form->createView()
+        ]);
+
     }
 
 }

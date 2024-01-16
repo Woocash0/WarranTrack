@@ -59,6 +59,8 @@ class WarrantyFormType extends AbstractType
                 'id' => 'file-box'
             ],
             'label' => 'Paragon',
+            'required'   => false,
+            'mapped' => false
         ]);
 }
 
