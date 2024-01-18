@@ -42,13 +42,13 @@ class WarrantiesController extends AbstractController
         */
         $warranty = new Warranty();
         $form = $this->createForm(WarrantyFormType::class, $warranty);
-
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $newWarranty = $form->getData();
             $newWarranty->setIdUser(3);
             $newWarranty->setActive(1);
             $receipt = $form->get('receipt')->getData();
+
             if($receipt){
                 $newFileName = uniqid() . '.' . $receipt->guessExtension();
 
@@ -65,6 +65,7 @@ class WarrantiesController extends AbstractController
             }else{
                 $newWarranty->setReceipt('no-image.svg');
             }
+            
             $this->em->persist($newWarranty);
             $this->em->flush();
 
@@ -123,6 +124,18 @@ class WarrantiesController extends AbstractController
             'warranty' => $warranty,
             'form' => $form->createView()
         ]);
+
+    }
+
+    #[Route('/delete_warranty/{id}', methods:['GET', 'DELETE'], name: 'delete_warranty')]
+    public function deleteWarranty($id): Response{
+    
+        $warranty = $this->warrantyRepository->find($id);
+        $this->em->remove($warranty);
+        $this->em->flush();
+
+        return $this->redirectToRoute('warranties');
+
 
     }
 

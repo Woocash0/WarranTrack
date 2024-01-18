@@ -26,42 +26,35 @@
       {% include '/views/navigation.html.twig' %}
       <main>
         <header>Add warranty</header>
-            {{ form_start(form) }}
-            <div class="messages">
-                {{ form_errors(form) }}
+        {% set fieldErrors = [] %}
+        
+        {{ form_start(form) }}
+        
+        <div id="info">
+            {% for child in form %}
+            <div class="detail_container">
+                {{ form_widget(child) }}
+                <div class="detail_name">{{ form_label(child) }}</div>
             </div>
-
-            <div id="info">
-                <div class="detail_container">
-                    {{ form_widget(form.category) }}
-                    <div class="detail_name">Kategoria</div>
-                </div>
-
-                <div class="detail_container">
-                    {{ form_widget(form.product_name) }}
-                    <div class="detail_name">Nazwa produktu</div>
-                </div>
-
-                <div class="detail_container">
-                    {{ form_widget(form.purchase_date) }}
-                    <div class="detail_name">Data zakupu</div>
-                </div>
-
-                <div class="detail_container">
-                    {{ form_widget(form.warranty_period) }}
-                    <div class="detail_name">Okres gwarancji</div>
-                </div>
-
-                <div class="detail_container">
-                    {{ form_widget(form.receipt) }}
-                    <div class="detail_name">Paragon</div>
-                </div>
-
-                <div class="detail_container">
-                    <button type="submit" id="sign">ADD</button>
-                </div>
+            {% for error in child.vars.errors %}
+                {% set fieldErrors = fieldErrors|merge([error.message]) %}
+            {% endfor %}
+            {% endfor %}
+            <div class="detail_container">
+                <button type="submit" id="sign">ADD</button>
             </div>
-            {{ form_end(form) }}
+        </div>
+        <div class="messages">
+        <ul>
+        {% for fieldError in fieldErrors %}
+             <li>{{ fieldError}}</li>
+        {% endfor %}
+        </ul>
+        {{ form_errors(form) }}
+        </div>  
+        {{ form_end(form) }}
+        
+
       </main>
     </div>
   </body>

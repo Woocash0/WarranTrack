@@ -5,14 +5,24 @@ input{
 }
 form{
     height: 80vh;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
 }
 
 #info {
     height: 90%;
 }
 .messages{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+.messages > ul > li{
     margin: 0;
     justify-content: center;
+    color: white;
+    font-family: "Roboto";
 }
 .detail_container{
 height: 6em;

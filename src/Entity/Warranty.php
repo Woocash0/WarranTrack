@@ -7,31 +7,39 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WarrantyRepository::class)]
 class Warranty
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2)]
     private ?string $category = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2)]
     private ?string $productName = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $purchaseDate = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 1)]
     private ?int $warrantyPeriod = null;
 
     #[ORM\Column]
     private ?int $idUser = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: 'string', length: 100)]
     private ?string $receipt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -58,7 +66,7 @@ class Warranty
         return $this->category;
     }
 
-    public function setCategory(string $category): static
+    public function setCategory(?string $category): static
     {
         $this->category = $category;
 
@@ -82,7 +90,7 @@ class Warranty
         return $this->purchaseDate;
     }
 
-    public function setPurchaseDate(\DateTimeInterface $purchaseDate): static
+    public function setPurchaseDate(?\DateTimeInterface $purchaseDate): static
     {
         $this->purchaseDate = $purchaseDate;
 
@@ -118,7 +126,7 @@ class Warranty
         return $this->receipt;
     }
 
-    public function setReceipt(?string $receipt): static
+    public function setReceipt(string $receipt): static
     {
         $this->receipt = $receipt;
 
@@ -142,7 +150,7 @@ class Warranty
         return $this->active;
     }
 
-    public function setActive(bool $active): static
+    public function setActive(?bool $active): static
     {
         $this->active = $active;
 

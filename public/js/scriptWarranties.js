@@ -118,18 +118,7 @@ function deleteById() {
 
     const deleteIcon = document.querySelector(".delete");
     deleteIcon.addEventListener("click", function () {
-
-        fetch("/delete", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id: deleteElementId })
-        }).then(function (response) {
-            if (response.ok) {
-                location.reload();
-            }
-        });
+        window.location.href = 'delete_warranty/'+deleteElementId;
     });
 }
 
@@ -141,7 +130,6 @@ function editById() {
 
     const editIcon = document.querySelector(".edit");
     editIcon.addEventListener("click", function () {
-        console.log("edit.html.twig"+editElementId);
         window.location.href = 'edit_warranty/'+editElementId;
     });
 }
