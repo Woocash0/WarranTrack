@@ -47,6 +47,7 @@ class WarrantiesController extends AbstractController
             $newWarranty = $form->getData();
             $newWarranty->setIdUser(3);
             $newWarranty->setActive(1);
+
             $receipt = $form->get('receipt')->getData();
 
             if($receipt){
@@ -135,8 +136,12 @@ class WarrantiesController extends AbstractController
         $this->em->flush();
 
         return $this->redirectToRoute('warranties');
+    }
 
-
+    #[Route('/account', name: 'account')]
+    public function showAccount(): Response{
+    
+        return $this->render('/views/account.html.twig');
     }
 
 }

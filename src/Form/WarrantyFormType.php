@@ -76,9 +76,7 @@ class WarrantyFormType extends AbstractType
                     'mimeTypes' => ['image/svg+xml', 'image/png', 'image/jpeg'],
                     'mimeTypesMessage' => 'Invalid file format. Allowed formats: .svg, .jpg, .png.',
                 ]),
-               
             ],
-            
         ]);
 }
 

@@ -32,14 +32,17 @@
         
         <div id="info">
             {% for child in form %}
-            <div class="detail_container">
-                {{ form_widget(child) }}
-                <div class="detail_name">{{ form_label(child) }}</div>
-            </div>
-            {% for error in child.vars.errors %}
-                {% set fieldErrors = fieldErrors|merge([error.message]) %}
+                {% if child.vars.name != '_token' %}
+                    <div class="detail_container">
+                        {{ form_widget(child) }}
+                        <div class="detail_name">{{ form_label(child) }}</div>
+                    </div>
+                    {% for error in child.vars.errors %}
+                        {% set fieldErrors = fieldErrors|merge([error.message]) %}
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
-            {% endfor %}
+                    
             <div class="detail_container">
                 <button type="submit" id="sign">ADD</button>
             </div>
