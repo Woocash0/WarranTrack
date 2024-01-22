@@ -45,4 +45,21 @@ class WarrantyRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /**
+     * Znajduje gwarancje wraz z powiązanymi tagami dla danego użytkownika.
+     *
+     * @param int $userId
+     * @return Warranty[] Zwraca tablicę gwarancji wraz z tagami.
+     */
+    public function findWarrantiesWithTags(int $userId): array
+    {
+        return $this->createQueryBuilder('w')
+            ->select('w', 'tags') // Wybierz zarówno gwarancję, jak i jej tagi
+            ->leftJoin('w.tags', 'tags') // Left join, aby uwzględnić gwarancje bez tagów
+            ->where('w.idUser = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
 }

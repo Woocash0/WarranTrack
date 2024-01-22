@@ -51,6 +51,30 @@ option{
     height: 100%;
     margin: 0 2em 0 2em;
 }
+
+#info #warranty_form_tags{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around !important;
+    border: none;
+}
+
+#warranty_form_tags label{
+    border: 1px solid white;
+    border-radius: 25px;
+    padding: 5px;
+    border-color: #261132;
+}
+
+#warranty_form_tags input[type="checkbox"]{
+    display: none;
+}
+#warranty_form_tags input[type="checkbox"]:checked + label {
+    color: white;
+    border-color: white;
+    
+}
+
 @media only screen and (max-device-width: 992px) {
     #info .detail_container{
         height: 2em;

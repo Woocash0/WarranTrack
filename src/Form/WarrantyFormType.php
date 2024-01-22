@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Warranty;
+use App\Entity\Tag;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,8 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class WarrantyFormType extends AbstractType
 {
@@ -59,6 +59,13 @@ class WarrantyFormType extends AbstractType
                 'class' => 'detail',
                 'placeholder' => 'e.g. 5 lat',
             ],
+            'constraints' => [
+                new Assert\Range([
+                    'min' => 0,
+                    'max' => 100,
+                    'notInRangeMessage' => 'Please enter a value between {{ min }} and {{ max }}',
+                ]),
+            ],
             'label' => 'Okres gwarancji',
             
         ])
@@ -77,7 +84,18 @@ class WarrantyFormType extends AbstractType
                     'mimeTypesMessage' => 'Invalid file format. Allowed formats: .svg, .jpg, .png.',
                 ]),
             ],
+        ])
+        ->add('tags', EntityType::class, [
+            'class' => Tag::class,
+            'choice_label' => 'name',
+            'multiple' => true,
+            'expanded' => true,
+            'attr' => [
+                'class' => 'detail',
+            ],
+            'label' => 'Tags',
         ]);
+        ;
 }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -24,6 +24,7 @@
           <div class="header_login">
               <div>Sign up</div>
           </div>
+         
         {{ form_widget(registrationForm.email) }}
         {% for error in registrationForm.email.vars.errors %}
             {% set fieldErrors = fieldErrors|merge([error.message]) %}
@@ -38,17 +39,22 @@
         {% for error in registrationForm.confirmedPassword.vars.errors %}
             {% set fieldErrors = fieldErrors|merge([error.message]) %}
         {% endfor %}
-          <button type="submit" class="btn" id="signup">SIGN UP</button>
-          <div class="messages">
-      {{ form_end(registrationForm) }}
-       <ul>
-        {% for fieldError in fieldErrors %}
-             <li>{{ fieldError}}</li>
-        {% endfor %}
-        </ul>
-        {{ form_errors(registrationForm) }}
+        <button type="submit" class="btn" id="sign">SIGN UP</button>
+        <a href="login" type="submit" id="signup">SIGN IN</a>
+        <div class="messages">
+            {% if app.user %}
+                <div>
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+            <ul>
+                {% for fieldError in fieldErrors %}
+                    <li>{{ fieldError}}</li>
+                {% endfor %}
+            </ul>
+            {{ form_errors(registrationForm) }}
         </div> 
-
+        {{ form_end(registrationForm) }}
     </div>
   </body>
 </html>

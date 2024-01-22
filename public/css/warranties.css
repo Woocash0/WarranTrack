@@ -258,8 +258,7 @@ section {
     justify-content: space-evenly;
   }
   #info .detail_container {
-    width: 100%;
-    height: 20%;
+    height: 17%;
   }
   #info .detail {
     width: 80%;

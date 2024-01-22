@@ -9,6 +9,7 @@ const detailProductName = document.querySelector('#detail_product_name');
 const detailPurchaseDate = document.querySelector('#detail_purchase_date');
 const detailWarrantyPeriod = document.querySelector('#detail_warranty_period');
 const detailReceipt = document.querySelector('#detail_receipt');
+const detailTags = document.querySelector('#detail_tags');
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Show/Hide Notification Panel
@@ -42,10 +43,12 @@ function showDetails(element1, element2) {
     const content_productName = warrantyBox.querySelector('#productName').textContent;
     const content_PurchaseDate = warrantyBox.querySelector('#purchaseDate').textContent;
     const content_WarrantyPeriod = warrantyBox.querySelector('#warrantyPeriod').textContent;
+    const content_Tags = warrantyBox.querySelector('#tags').textContent;
 
     detailCategory.innerHTML = content_Category;
     detailProductName.innerHTML = content_productName;
     detailPurchaseDate.innerHTML = content_PurchaseDate;
+    detailTags.innerHTML = content_Tags;
 
     let year = "lat";
     if (content_WarrantyPeriod === "1") {
@@ -201,14 +204,22 @@ function createWarranty(warranty){
     const category = clone.querySelector(".imgname");
     category.innerHTML = warranty.category;
     const image = clone.querySelector("img");
-    image.src = `/public/img/${warranty.category}.svg`;
+    image.src = `./img/${warranty.category}.svg`;
 
     const productName = clone.querySelector("#productName");
-    productName.innerHTML = warranty.product_name;
+    productName.innerHTML = warranty.productName;
     const purchaseDate = clone.querySelector("#purchaseDate");
-    purchaseDate.innerHTML = warranty.purchase_date;
+    
+    const dateTime = new Date(warranty.purchaseDate);
+    const year = dateTime.getFullYear();
+    const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Dodaj 1, ponieważ miesiące są liczone od 0 do 11
+    const day = String(dateTime.getDate()).padStart(2, '0');
+    const formattedDate = year + "-" + month + "-" + day;
+
+
+    purchaseDate.innerHTML = formattedDate;
     const warrantyPeriod = clone.querySelector("#warrantyPeriod");
-    warrantyPeriod.innerHTML = warranty.warranty_period;
+    warrantyPeriod.innerHTML = warranty.warrantyPeriod;
     const receipt = clone.querySelector("#receipt");
     receipt.innerHTML = warranty.receipt;
 
