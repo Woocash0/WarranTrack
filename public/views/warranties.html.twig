@@ -39,8 +39,9 @@
                         <div id="warrantyPeriod">{{warranty.warrantyPeriod}}</div>
                         <div id="receipt">{{warranty.receipt}}</div>
                         <div id="tags">{% for tag in warranty.tags %}
-        {{ tag.name }}
-    {% endfor %}</div>
+                                {{ tag.name }}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             {% endfor %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Warranty;
+use App\Entity\User;
 use App\Entity\Tag;
 
 use App\Form\WarrantyFormType;
@@ -110,24 +111,24 @@ class WarrantiesController extends AbstractController
     #[Route('/edit_warranty/{id}', name: 'edit_warranty')]
     public function editWarranty($id, Request $request, Security $security): Response {
         $user = $security->getUser();
-    
+
         $warranty = $this->warrantyRepository->find($id);
-    
+
         if (!$warranty) {
             throw $this->createNotFoundException('Gwarancja o podanym identyfikatorze nie istnieje.');
         }
-    
+
         if ($warranty->getIdUser() !== $user->getId()) {
             throw $this->createAccessDeniedException('Nie masz uprawnień do edycji tej gwarancji.');
         }
-    
+
         $form = $this->createForm(WarrantyFormType::class, $warranty);
-    
+
         $form->handleRequest($request);
-    
+
         if ($form->isSubmitted() && $form->isValid()) {
             $receipt = $form->get('receipt')->getData();
-        
+
             if ($receipt) {
                 if ($warranty->getReceipt() !== null) {
                     // Handle file upload similar to your existing logic
@@ -140,20 +141,20 @@ class WarrantiesController extends AbstractController
                 $warranty->setProductName($form->get('product_name')->getData());
                 $warranty->setPurchaseDate($form->get('purchase_date')->getData());
                 $warranty->setWarrantyPeriod($form->get('warranty_period')->getData());
-                
+
                 // Handle tags
                 $tags = $form->get('tags')->getData();
-            
+
                 foreach ($tags as $tag) {
                     $warranty->addTag($tag);
                 }
-            
+
                 $this->em->flush();
-            
+
                 return $this->redirectToRoute('warranties');
             }
         }
-    
+
         return $this->render('/views/edit_warranty.html.twig', [
             'warranty' => $warranty,
             'form' => $form->createView(),
@@ -165,10 +166,6 @@ class WarrantiesController extends AbstractController
     public function deleteWarranty($id): Response {
 
         $warranty = $this->warrantyRepository->find($id);
-
-        if (!$warranty) {
-            return new Response('Warranty not found', Response::HTTP_NOT_FOUND);
-        }
 
         $tags = $warranty->getTags();
 
@@ -244,7 +241,13 @@ class WarrantiesController extends AbstractController
     #[Route('/account', name: 'account')]
     public function showAccount(): Response{
     
-        return $this->render('/views/account.html.twig');
+
+            $user = $this->getUser();
+            $userDetails = $user->getIdUserDetails();
+            
+            return $this->render('/views/account.html.twig', [
+            'userDetails' => $userDetails,
+        ]);
     }
 
 }

@@ -24,7 +24,14 @@
           <div class="header_login">
               <div>Sign up</div>
           </div>
-         
+         {{ form_widget(registrationForm.name) }}
+        {% for error in registrationForm.name.vars.errors %}
+            {% set fieldErrors = fieldErrors|merge([error.message]) %}
+        {% endfor %}
+        {{ form_widget(registrationForm.surname) }}
+        {% for error in registrationForm.surname.vars.errors %}
+            {% set fieldErrors = fieldErrors|merge([error.message]) %}
+        {% endfor %}
         {{ form_widget(registrationForm.email) }}
         {% for error in registrationForm.email.vars.errors %}
             {% set fieldErrors = fieldErrors|merge([error.message]) %}

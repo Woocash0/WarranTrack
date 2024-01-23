@@ -194,7 +194,7 @@ function loadWarranties(warranties){
     attachEventListenersToWarrantyBoxes();
 }
 
-function createWarranty(warranty){
+ function createWarranty(warranty){
     const template = document.querySelector("#warranty-template");
     const clone = template.content.cloneNode(true);
 
@@ -212,7 +212,7 @@ function createWarranty(warranty){
     
     const dateTime = new Date(warranty.purchaseDate);
     const year = dateTime.getFullYear();
-    const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Dodaj 1, ponieważ miesiące są liczone od 0 do 11
+    const month = String(dateTime.getMonth() + 1).padStart(2, '0');
     const day = String(dateTime.getDate()).padStart(2, '0');
     const formattedDate = year + "-" + month + "-" + day;
 
@@ -222,10 +222,34 @@ function createWarranty(warranty){
     warrantyPeriod.innerHTML = warranty.warrantyPeriod;
     const receipt = clone.querySelector("#receipt");
     receipt.innerHTML = warranty.receipt;
+    const tags = clone.querySelector("#tags");
+    var tagList = "";
+    var promises = [];
+
+    for (var i = 0; i < warranty.tags.length; i++) {
+        var url = "http://127.0.0.1:8000" + warranty.tags[i];
+
+        promises.push(
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const tagName = data.name;
+                    return tagName;
+                })
+                .catch(error => console.error('Błąd:', error))
+        );
+    }
+
+    Promise.all(promises)
+        .then(tagNames => {
+
+            tagList = tagNames.join(', '); 
+            tags.innerHTML = tagList;
+        })
+        .catch(error => console.error('Błąd przy pobieraniu danych:', error));
 
     warrantyContainer.appendChild(clone);
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // clickable icons
