@@ -38,8 +38,9 @@ class Warranty
     #[Assert\Length(min: 1)]
     private ?int $warrantyPeriod = null;
 
-    #[ORM\Column]
-    private ?int $idUser = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", onDelete: "CASCADE")]
+    private ?User $idUser = null;
 
     #[ORM\Column(type: 'string', length: 100)]
     private ?string $receipt = null;
@@ -111,12 +112,12 @@ class Warranty
         return $this;
     }
 
-    public function getIdUser(): ?int
+    public function getIdUser(): ?User
     {
         return $this->idUser;
     }
 
-    public function setIdUser(int $idUser): static
+    public function setIdUser(?User $idUser): static
     {
         $this->idUser = $idUser;
 

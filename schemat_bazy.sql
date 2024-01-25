@@ -147,7 +147,7 @@ CREATE TABLE public.warranty (
     product_name character varying(100) NOT NULL,
     purchase_date date NOT NULL,
     warranty_period integer NOT NULL,
-    id_user integer NOT NULL,
+    id_user integer,
     receipt character varying(100) DEFAULT NULL::character varying NOT NULL,
     warranty_end_date date,
     active boolean NOT NULL
@@ -245,6 +245,13 @@ CREATE INDEX idx_5aab728bbad26311 ON public.warranty_tag USING btree (tag_id);
 
 
 --
+-- Name: idx_88d71cf26b3ca4b; Type: INDEX; Schema: public; Owner: app
+--
+
+CREATE INDEX idx_88d71cf26b3ca4b ON public.warranty USING btree (id_user);
+
+
+--
 -- Name: uniq_8d93d649e7927c74; Type: INDEX; Schema: public; Owner: app
 --
 
@@ -279,6 +286,14 @@ ALTER TABLE ONLY public.warranty_tag
 
 ALTER TABLE ONLY public.warranty_tag
     ADD CONSTRAINT fk_5aab728bbad26311 FOREIGN KEY (tag_id) REFERENCES public.tag(id) ON DELETE CASCADE;
+
+
+--
+-- Name: warranty fk_88d71cf26b3ca4b; Type: FK CONSTRAINT; Schema: public; Owner: app
+--
+
+ALTER TABLE ONLY public.warranty
+    ADD CONSTRAINT fk_88d71cf26b3ca4b FOREIGN KEY (id_user) REFERENCES public."user"(id) ON DELETE CASCADE;
 
 
 --

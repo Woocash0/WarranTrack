@@ -71,7 +71,7 @@ class WarrantiesController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $newWarranty = $form->getData();
-            $newWarranty->setIdUser($user->getId());
+            $newWarranty->setIdUser($user);
 
             $receipt = $form->get('receipt')->getData();
 
