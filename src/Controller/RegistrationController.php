@@ -49,14 +49,4 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
-
-    public function account(): Response
-{
-    $user = $this->getUser();
-    $userDetails = $user->getIdUserDetails();
-
-    return $this->render('some_template.html.twig', [
-        'userDetails' => $userDetails,
-    ]);
-}
 }

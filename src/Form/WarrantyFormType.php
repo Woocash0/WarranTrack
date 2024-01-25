@@ -38,21 +38,21 @@ class WarrantyFormType extends AbstractType
             'attr' => [
                 'class' => 'detail',
             ],
-            'label' => 'Kategoria',
+            'label' => 'Category',
         ])
         ->add('product_name', TextType::class, [
             'attr' => [
                 'class' => 'detail',
                 'placeholder' => 'e.g. Samsung OLED 4k 2020',
             ],
-            'label' => 'Nazwa produktu',
+            'label' => 'Product Name',
         ])
         ->add('purchase_date', DateType::class, array(
             'widget' => 'single_text',
             'attr' => [
                 'class' => 'detail',
             ],
-            'label' => 'Data zakupu',
+            'label' => 'Purchase Date',
         ))
         ->add('warranty_period', IntegerType::class, [
             'attr' => [
@@ -66,7 +66,7 @@ class WarrantyFormType extends AbstractType
                     'notInRangeMessage' => 'Please enter a value between {{ min }} and {{ max }}',
                 ]),
             ],
-            'label' => 'Okres gwarancji',
+            'label' => 'Warranty Period',
             
         ])
         ->add('receipt', FileType::class, [
@@ -74,7 +74,7 @@ class WarrantyFormType extends AbstractType
                 'class' => 'detail',
                 'id' => 'file-box'
             ],
-            'label' => 'Paragon',
+            'label' => 'Receipt',
             'required'   => false,
             'mapped' => false,
             'constraints' => [
