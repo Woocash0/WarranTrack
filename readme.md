@@ -12,7 +12,7 @@ The WarranTrack web app makes it easier for users to keep track of their purchas
 
 ## Technologies Used
 
-- HTML
+- HTML / Twig
 - CSS
 - Symfony (PHP)
 - JavaScript

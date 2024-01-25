@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Warranty;
-use App\Entity\User;
-use App\Entity\Tag;
 
 use App\Form\WarrantyFormType;
 use App\Repository\WarrantyRepository;
@@ -15,9 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Persistence\ManagerRegistry;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
 
 
 class WarrantiesController extends AbstractController
@@ -43,7 +38,6 @@ class WarrantiesController extends AbstractController
         // Pobierz wszystkie gwarancje użytkownika
         $warranties = $this->warrantyRepository->findWarrantiesWithTags($user->getId());
 
-        // Filtruj gwarancje, zostawiając tylko te, które się jeszcze nie zakończyły
         $currentDate = new \DateTime();
         $validWarranties = array_filter($warranties, function($warranty) use ($currentDate) {
         $endDate = clone $warranty->getPurchaseDate();
@@ -51,7 +45,7 @@ class WarrantiesController extends AbstractController
         return $endDate >= $currentDate;
         });
 
-        return $this->render('/views/warranties.html.twig', [
+        return $this->render('/views/dashboard/warranties.html.twig', [
            'warranties' => $validWarranties
         ]);
     }
@@ -103,7 +97,7 @@ class WarrantiesController extends AbstractController
             return $this->redirectToRoute('warranties');
         }
         
-        return $this->render('/views/add_warranty.html.twig', [
+        return $this->render('/views/dashboard/add_warranty.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -118,7 +112,7 @@ class WarrantiesController extends AbstractController
             throw $this->createNotFoundException('Gwarancja o podanym identyfikatorze nie istnieje.');
         }
 
-        if ($warranty->getIdUser() !== $user->getId()) {
+        if ($warranty->getIdUser()->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException('Nie masz uprawnień do edycji tej gwarancji.');
         }
 
@@ -131,18 +125,14 @@ class WarrantiesController extends AbstractController
 
             if ($receipt) {
                 if ($warranty->getReceipt() !== null) {
-                    // Handle file upload similar to your existing logic
                 } else {
-                    // Handle the case where receipt is null (optional)
                 }
             } else {
-                // Handle non-file form fields
                 $warranty->setCategory($form->get('category')->getData());
                 $warranty->setProductName($form->get('product_name')->getData());
                 $warranty->setPurchaseDate($form->get('purchase_date')->getData());
                 $warranty->setWarrantyPeriod($form->get('warranty_period')->getData());
 
-                // Handle tags
                 $tags = $form->get('tags')->getData();
 
                 foreach ($tags as $tag) {
@@ -155,7 +145,7 @@ class WarrantiesController extends AbstractController
             }
         }
 
-        return $this->render('/views/edit_warranty.html.twig', [
+        return $this->render('/views/dashboard/edit_warranty.html.twig', [
             'warranty' => $warranty,
             'form' => $form->createView(),
         ]);
@@ -220,10 +210,8 @@ class WarrantiesController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // Pobierz wszystkie gwarancje użytkownika
         $warranties = $this->warrantyRepository->findBy(['idUser' => $user->getId()]);
 
-        // Filtruj gwarancje, zostawiając tylko te, które się już zakończyły
         $currentDate = new \DateTime();
         $expiredWarranties = array_filter($warranties, function($warranty) use ($currentDate) {
             $endDate = clone $warranty->getPurchaseDate();
@@ -231,21 +219,18 @@ class WarrantiesController extends AbstractController
             return $endDate < $currentDate;
         });
 
-        return $this->render('/views/archive.html.twig', [
+        return $this->render('/views/dashboard/archive.html.twig', [
            'archives' => $expiredWarranties
             ]);
 }
 
-
-
     #[Route('/account', name: 'account')]
     public function showAccount(): Response{
     
-
             $user = $this->getUser();
             $userDetails = $user->getIdUserDetails();
             
-            return $this->render('/views/account.html.twig', [
+            return $this->render('/views/account/account.html.twig', [
             'userDetails' => $userDetails,
         ]);
     }
