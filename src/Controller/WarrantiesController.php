@@ -125,7 +125,21 @@ class WarrantiesController extends AbstractController
 
             if ($receipt) {
                 if ($warranty->getReceipt() !== null) {
+                    $this->getParameter('kernel.project_dir') . $warranty->getReceipt();
+                    $newFileName = uniqid() . '.' . $receipt->guessExtension();
+                        try{
+                            $receipt->move(
+                                $this->getParameter('kernel.project_dir') . '/public/uploads',
+                                $newFileName
+                            );
+                        } catch(FileException $e){
+                            return new Response($e->getMessage());
+                        }
+                        $warranty->setReceipt($newFileName);
+                        $this->em->flush();
+                        return $this->redirectToRoute('warranties');
                 } else {
+                    dd('jest nullem');
                 }
             } else {
                 $warranty->setCategory($form->get('category')->getData());
@@ -152,16 +166,10 @@ class WarrantiesController extends AbstractController
     }
 
 
-    #[Route('/delete_warranty/{id}', methods:['GET', 'DELETE'], name: 'delete_warranty')]
+    #[Route('/delete_warranty/{id}', methods:['GET','DELETE'], name: 'delete_warranty')]
     public function deleteWarranty($id): Response {
 
         $warranty = $this->warrantyRepository->find($id);
-
-        $tags = $warranty->getTags();
-
-        foreach ($tags as $tag) {
-            $warranty->removeTag($tag);
-        }
 
         $this->em->remove($warranty);
         $this->em->flush();

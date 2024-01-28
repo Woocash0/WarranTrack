@@ -80,7 +80,7 @@ class WarrantyFormType extends AbstractType
             'constraints' => [
                 new Assert\File([
                     'maxSize' => '2M',
-                    'mimeTypes' => ['image/svg+xml', 'image/png', 'image/jpeg'],
+                    'mimeTypes' => ['image/svg+xml', 'image/png', 'image/jpeg', 'image/jpg'],
                     'mimeTypesMessage' => 'Invalid file format. Allowed formats: .svg, .jpg, .png.',
                 ]),
             ],

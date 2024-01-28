@@ -6,27 +6,7 @@ use App\Repository\UserDetailsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
-#[ApiResource(
-    collectionOperations: [
-        'get' => [
-            'path' => '/user_details',
-        ],
-        'post' => [
-            'path' => '/user_details',
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'path' => '/user_details/{id}',
-        ],
-        'put' => [
-            'path' => '/user_details/{id}',
-        ],
-        'delete' => [
-            'path' => '/user_details/{id}',
-        ],
-    ],
-)]
+#[ApiResource()]
 #[ORM\Entity(repositoryClass: UserDetailsRepository::class)]
 class UserDetails
 {
