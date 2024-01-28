@@ -26,16 +26,21 @@ Make sure the following tools are installed on your system:
 
 - Docker: [Docker Installation Instructions](https://docs.docker.com/get-docker/)
 - Docker Compose: [Docker Compose Installation Instructions](https://docs.docker.com/compose/install/)
+- PHP: [PHP Installation Instructions](https://www.php.net/manual/en/install.php)
+- Composer: [Composer Installation Instructions](https://getcomposer.org/download/)
+- Symfony CLI: [Symfony CLI Installation Instructions](https://symfony.com/download)
 
 To install and set up WarranTrack on your local machine, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/Woocash0/WarranTrack`
 2. Navigate to the project directory: `cd your-project`
-3. Customize the settings in `.env` if necessary:
-4. Start the Docker containers: `docker-compose up -d`  
-5. Install PHP dependencies: `docker-compose exec app composer install`
-6. Run database migrations: `docker-compose exec app php bin/console doctrine:migrations:migrate`
-7. The application should now be accessible at `http://localhost:8000`.
+3. Install PHP dependencies: `composer install`
+4. Customize the settings in `.env` if necessary:
+5. Start the Docker containers: `docker-compose up -d`  
+
+6. Run database migrations: `symfony console doctrine:migrations:migrate`
+7. Launch Symfony Application `symfony serve -d`
+8. The application should now be accessible at `http://localhost:8000/login`.
 
 ## Screenshots
 
